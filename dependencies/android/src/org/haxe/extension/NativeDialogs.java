@@ -38,23 +38,13 @@ import android.view.View;
 */
 public class NativeDialogs extends Extension {
 	
-	
-	public static int sampleMethod (int inputValue) {
-		
-		return inputValue * 100;
-		
-	}
-	
-	
 	/**
 	 * Called when an activity you launched exits, giving you the requestCode 
 	 * you started it with, the resultCode it returned, and any additional data 
 	 * from it.
 	 */
 	public boolean onActivityResult (int requestCode, int resultCode, Intent data) {
-		
 		return true;
-		
 	}
 	
 	
@@ -62,9 +52,6 @@ public class NativeDialogs extends Extension {
 	 * Called when the activity is starting.
 	 */
 	public void onCreate (Bundle savedInstanceState) {
-		
-		
-		
 	}
 	
 	
@@ -72,9 +59,6 @@ public class NativeDialogs extends Extension {
 	 * Perform any final cleanup before an activity is destroyed.
 	 */
 	public void onDestroy () {
-		
-		
-		
 	}
 	
 	
@@ -83,9 +67,6 @@ public class NativeDialogs extends Extension {
 	 * the background, but has not (yet) been killed.
 	 */
 	public void onPause () {
-		
-		
-		
 	}
 	
 	
@@ -94,9 +75,6 @@ public class NativeDialogs extends Extension {
 	 * re-displayed to the user (the user has navigated back to it).
 	 */
 	public void onRestart () {
-		
-		
-		
 	}
 	
 	
@@ -105,9 +83,6 @@ public class NativeDialogs extends Extension {
 	 * to start interacting with the user.
 	 */
 	public void onResume () {
-		
-		
-		
 	}
 	
 	
@@ -117,9 +92,6 @@ public class NativeDialogs extends Extension {
 	 * user.
 	 */
 	public void onStart () {
-		
-		
-		
 	}
 	
 	
@@ -128,10 +100,32 @@ public class NativeDialogs extends Extension {
 	 * another activity has been resumed and is covering this one. 
 	 */
 	public void onStop () {
-		
-		
-		
 	}
-	
-	
+
+    /** Get text input from the user */
+    public static void textDialog(final String title, final String text, final String defValue, final String okText, final HaxeObject onOk, final boolean withCancle, final String cancelText, final HaxeObject onCancel) {
+      AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+      alert.setTitle(title);
+      alert.setMessage(text);
+
+      // Set an EditText view to get user input 
+      final EditText input = new EditText(this);
+      input.setValue(defValue);
+      alert.setText(input);
+
+      alert.setPositiveButton(okText, new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int whichButton) {
+          String value = input.getText();
+          onOk.call1(value);
+        }
+      });
+
+      alert.setNegativeButton(cancelText, new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int whichButton) {
+          onCancel.call0();
+        }
+      });
+
+      alert.show();
 }
