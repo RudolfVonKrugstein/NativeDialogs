@@ -8,7 +8,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.app.AlertDialog;
+import android.widget.EditText;
+import android.util.Log;
 
+import android.content.DialogInterface;
+
+import org.haxe.lime.HaxeObject;
 
 /* 
 	You can use the Android Extension class in order to hook
@@ -103,29 +109,42 @@ public class NativeDialogs extends Extension {
 	}
 
     /** Get text input from the user */
-    public static void textDialog(final String title, final String text, final String defValue, final String okText, final HaxeObject onOk, final boolean withCancle, final String cancelText, final HaxeObject onCancel) {
-      AlertDialog.Builder alert = new AlertDialog.Builder(this);
+    public static void textDialog(final String title, final String text, final String defValue, final String okText, final HaxeObject onOk, final boolean withCancel, final String cancelText, final HaxeObject onCancel) {
+        mainActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                AlertDialog.Builder alert = new AlertDialog.Builder(mainActivity);
 
-      alert.setTitle(title);
-      alert.setMessage(text);
+                alert.setTitle(title);
+                alert.setMessage(text);
 
-      // Set an EditText view to get user input 
-      final EditText input = new EditText(this);
-      input.setValue(defValue);
-      alert.setText(input);
+                // Set an EditText view to get user input
+                final EditText input = new EditText(mainActivity);
+                input.setText(defValue);
+                alert.setView(input);
 
-      alert.setPositiveButton(okText, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int whichButton) {
-          String value = input.getText();
-          onOk.call1(value);
-        }
-      });
+                alert.setPositiveButton(okText, new DialogInterface.OnClickListener()
 
-      alert.setNegativeButton(cancelText, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int whichButton) {
-          onCancel.call0();
-        }
-      });
+                        {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                String value = input.getText().toString();
+                                onOk.call1("callback", new Object[]{value});
+                            }
+                        }
 
-      alert.show();
+                );
+
+                if (withCancel)
+
+                {
+                    alert.setNegativeButton(cancelText, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            onCancel.call0("callback");
+                        }
+                    });
+                }
+
+                alert.show();
+            }
+        });
+    }
 }
