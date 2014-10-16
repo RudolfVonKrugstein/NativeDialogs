@@ -12,6 +12,7 @@ import openfl.utils.JNI;
 
 
 class NativeDialogs {
+  #if android
   private static inline var javaString = "Ljava/lang/String;";
   private static inline var javaHaxe   = "Lorg/haxe/lime/HaxeObject;";
 
@@ -27,6 +28,7 @@ class NativeDialogs {
     var method = JNI.createStaticMethod("org/haxe/extension/NativeDialogs", "textDialog",signature);
     method(title, dialogText, preValue, okText, new StringCallbackHolder(okCb), withCancel, cancelText, new CallbackHolder(cancelCb));
 	}
+	#end
 }
 
 private class CallbackHolder {
