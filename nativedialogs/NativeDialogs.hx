@@ -24,7 +24,6 @@ class NativeDialogs {
       okCb = function(s) {};
     }
     var signature = "(" + javaString + javaString + javaString + javaString + javaHaxe + "Z" + javaString + javaHaxe + ")V";
-    trace("Signature: " + signature);
     var method = JNI.createStaticMethod("org/haxe/extension/NativeDialogs", "textDialog",signature);
     method(title, dialogText, preValue, okText, new StringCallbackHolder(okCb), withCancel, cancelText, new CallbackHolder(cancelCb));
 	}
@@ -51,6 +50,6 @@ private class StringCallbackHolder {
 
   public function callback(val : String) {
     if (cb != null)
-      cb(val);
+      cb(val.substr(1,val.length-2));
   }
 }
