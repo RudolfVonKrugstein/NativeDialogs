@@ -4,10 +4,7 @@
 
 namespace nativedialogs {
 	
-	
-	int SampleMethod(int inputValue);
-	
-	
+	showTextDialog(NSString title, NSString prevValue, NSString okText, bool withCancel, NSString cancelText);
 }
 
 

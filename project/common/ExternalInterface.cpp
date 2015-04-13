@@ -11,18 +11,20 @@
 #include "Utils.h"
 
 
-using namespace nativedialogs;
+namespace nativedialogs {
 
+	AutoGCRoot *okCallback = 0;
+	AutoGCRoot *cancelCallback = 0;
 
+	static value textDialog(value title, value prevValue, value okText, value okCb, value withCancel, value cancelText, value cancelCb) {
+		okCallback = new AutoGCRoot(okCallback);
+		cancelCallback = new AutoGCRoot(cancelCallack);
+		showTextDialog(title, prevValue, okText, withCancel, cancelText);
+		return alloc_null();
 
-static value nativedialogs_sample_method (value inputValue) {
-	
-	int returnValue = SampleMethod(val_int(inputValue));
-	return alloc_int(returnValue);
-	
+	}
+	DEFINE_PRIM (textDialog, 8);
 }
-DEFINE_PRIM (nativedialogs_sample_method, 1);
-
 
 
 extern "C" void nativedialogs_main () {
