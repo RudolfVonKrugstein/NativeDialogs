@@ -4,10 +4,10 @@
 	
 	<files id="common">
 		
-		<compilerflag value="-Iinclude"/>
+		<compilerflag value="-Iinclude" if="iphone"/>
 		
-		<file name="common/ExternalInterface.cpp"/>
-		<file name="common/NativeDialogs.cpp"/>
+		<file name="common/ExternalInterface.cpp" if="iphone"/>
+		<file name="common/NativeDialogs.mm" if="iphone"/>
 		
 	</files>
 	

@@ -3,11 +3,13 @@
 
 
 namespace nativedialogs {
-	
-	
-	int SampleMethod(int inputValue);
-	
-	
+
+    static void textDialog_Impl( const char* title
+                          , const char* dialogText
+                          , const char* preValue
+                          , const char* okText
+                          , bool withCancel
+                          , const char* cancelText);
 }
 
 

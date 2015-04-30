@@ -13,15 +13,24 @@
 
 using namespace nativedialogs;
 
-
-
-static value nativedialogs_sample_method (value inputValue) {
-	
-	int returnValue = SampleMethod(val_int(inputValue));
-	return alloc_int(returnValue);
-	
+namespace nativedialogs {
+AutoGCRoot *okCallback = 0;
+AutoGCRoot *cancelCallback = 0;
 }
-DEFINE_PRIM (nativedialogs_sample_method, 1);
+
+static void textDialog( value title
+                      , value dialogText
+                      , value preValue
+                      , value okText
+                      , value okCb
+                      , bool withCancel
+                      , value cancelText
+                      , value cancelCb ) {
+    okCallback = new AutoGCRoot(okCb);
+    cancelCallback = new AutoGCRoot(cancelCb);
+    textDialog_Impl(val_string(title), val_string(dialogText), val_string(preValue), val_string(okText), withCancel, val_string(cancelText));
+}
+DEFINE_PRIM (textDialog, 8);
 
 
 
