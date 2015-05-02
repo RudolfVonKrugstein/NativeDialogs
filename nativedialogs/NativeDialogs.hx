@@ -25,12 +25,19 @@ class NativeDialogs {
     if (okCb == null) {
       okCb = function(s) {};
     }
+
+    if (title == null) title = "";
+    if (dialogText == null) dialogText = "";
+    if (preValue == null) preValue = "";
+    if (okText == null) okText = "";
+    if (cancelText == null) cancelText = "";
+
     #if android
     var signature = "(" + javaString + javaString + javaString + javaString + javaHaxe + "Z" + javaString + javaHaxe + ")V";
     var method = JNI.createStaticMethod("org/haxe/extension/NativeDialogs", "textDialog",signature);
     method(title, dialogText, preValue, okText, new StringCallbackHolder(okCb), withCancel, cancelText, new CallbackHolder(cancelCb));
     #else
-    var method = Lib.load("nativedialogs","textDialog",8);
+    var method = Lib.load("nativedialogs","nativedialogs_textdialog",8);
     method(title,dialogText,preValue,okText,okCb,withCancel,cancelText,cancelCb);
     #end
 	}

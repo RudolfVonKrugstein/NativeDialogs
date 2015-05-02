@@ -6,33 +6,28 @@
 #define NEKO_COMPATIBLE
 #endif
 
-
-#include <hx/CFFI.h>
+ #include <hx/CFFI.h>
 #include "Utils.h"
 
 
 using namespace nativedialogs;
 
-namespace nativedialogs {
+
 AutoGCRoot *okCallback = 0;
 AutoGCRoot *cancelCallback = 0;
+
+static void nativedialogs_textdialog(value *pars, int count) {
+    const char *title = val_string(pars[0]);
+    const char *dialogText = val_string(pars[1]);
+    const char *preValue = val_string(pars[2]);
+    const char *okText = val_string(pars[3]);
+    okCallback = new AutoGCRoot(pars[4]);
+    bool withCancel = val_bool(pars[5]);
+    const char *cancelText = val_string(pars[6]);
+    cancelCallback = new AutoGCRoot(pars[7]);
+    textDialog_Impl(title, dialogText, preValue, okText, okCallback, withCancel, cancelText, cancelCallback);
 }
-
-static void textDialog( value title
-                      , value dialogText
-                      , value preValue
-                      , value okText
-                      , value okCb
-                      , bool withCancel
-                      , value cancelText
-                      , value cancelCb ) {
-    okCallback = new AutoGCRoot(okCb);
-    cancelCallback = new AutoGCRoot(cancelCb);
-    textDialog_Impl(val_string(title), val_string(dialogText), val_string(preValue), val_string(okText), withCancel, val_string(cancelText));
-}
-DEFINE_PRIM (textDialog, 8);
-
-
+DEFINE_PRIM_MULT (nativedialogs_textdialog);
 
 extern "C" void nativedialogs_main () {
 	
