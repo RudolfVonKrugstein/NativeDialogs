@@ -6,8 +6,8 @@
 		
 		<compilerflag value="-Iinclude"/>
 		
-		<file name="common/ExternalInterface.cpp"/>
-		<file name="common/NativeDialogs.mm"/>
+		<file name="common/ExternalInterface.cpp" if="iphone"/>
+		<file name="common/NativeDialogs.mm" if="iphone"/>
 
 	</files>
 	
